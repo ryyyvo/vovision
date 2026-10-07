@@ -23,6 +23,7 @@ int main()
     camera.set(cv::CAP_PROP_FPS, 60);
 
     cv::Mat frame;
+    cv::Mat gray_frame; 
 
     std::cout << "Camera opened successfully\n";
 
@@ -43,6 +44,8 @@ int main()
             break;
         }
 
+        cv::cvtColor(frame, gray_frame, cv::COLOR_BGR2GRAY);
+
         ++frame_count;
 
         auto current_time = std::chrono::steady_clock::now();
@@ -62,16 +65,16 @@ int main()
         }
 
         cv::putText(
-            frame,
+            gray_frame,
             fps_text,
             cv::Point{20, 40},
             cv::FONT_HERSHEY_SIMPLEX,
             1.0,
-            cv::Scalar{0, 255, 0},
+            cv::Scalar{255},
             2
         );
 
-        cv::imshow("frame", frame);
+        cv::imshow("frame", gray_frame);
 
         int key = cv::waitKey(1);
 
